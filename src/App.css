@@ -110,6 +110,7 @@
   word-wrap: break-word;
   width: 100%;
   font-size: 18px;
+  text-align: left;
 }
 
 .contain{

@@ -4,7 +4,7 @@ import { useState } from 'react'
 import { BrowserRouter, Route, Routes, useNavigate } from "react-router-dom";
 import Chat from './Chat';
 
-const socket = io.connect("http://localhost:3333");
+const socket = io.connect("https://socket-io-jzq1.onrender.com");
 
 function App() {
   // const navigate = useNavigate()
