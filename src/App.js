@@ -1,23 +1,59 @@
-import logo from './logo.svg';
 import './App.css';
+import io from "socket.io-client"
+import { useState } from 'react'
+import { BrowserRouter, Route, Routes, useNavigate } from "react-router-dom";
+import Chat from './Chat';
+
+const socket = io.connect("http://localhost:3333");
 
 function App() {
+  // const navigate = useNavigate()
+  const [username, setUsername] = useState("")
+  const [room, setRoom] = useState("")
+  const [chatAvailable, setChatAvailable] = useState(false)
+
+  const joinRoom = () => {
+    if (username !== "" && room !== ""){
+      socket.emit("join_room", room)  // connects to the socket and sends the room code
+      setChatAvailable(true)
+      // navigate("/")
+    }
+  }
+
   return (
     <div className="App">
-      <header className="App-header">
-        <img src={logo} className="App-logo" alt="logo" />
-        <p>
-          Edit <code>src/App.js</code> and save to reload.
-        </p>
-        <a
-          className="App-link"
-          href="https://reactjs.org"
-          target="_blank"
-          rel="noopener noreferrer"
-        >
-          Learn React
-        </a>
-      </header>
+      <BrowserRouter>
+      { !chatAvailable ? (
+        <div className='home container-fluid'>
+          <div className='title'>
+            <h3>Join A Chat</h3>
+          </div>
+          <div className='input-container row justify-content-around'>
+          <input
+            className='col-sm-5' 
+            type='text' 
+            placeholder="John..." 
+            onChange={(e) => setUsername(e.target.value)} />
+            
+          <input 
+            className='col-sm-5' 
+            type='text' 
+            placeholder="Room ID..." 
+            onChange={(e) => setRoom(e.target.value)} />
+          </div>
+    
+          <button className='btn btn-secondary btn-lg' onClick={joinRoom}>Join A Room</button>
+        </div>
+      ) : null}
+
+      {chatAvailable ? (
+        <div className='chat-screen'>
+          <button className='btn btn-dark button-back' onClick={() => setChatAvailable(false)}>Back</button>
+          <Chat socket={socket} username={username} room={room} />
+        </div>
+      ) : null}
+      
+      </BrowserRouter>
     </div>
   );
 }
