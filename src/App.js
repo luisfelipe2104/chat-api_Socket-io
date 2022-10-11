@@ -4,7 +4,7 @@ import { useState } from 'react'
 import { BrowserRouter, Route, Routes, useNavigate } from "react-router-dom";
 import Chat from './Chat';
 
-const socket = io.connect("https://stormy-sweater-ray.cyclic.app");
+const socket = io.connect("https://gray-helpful-salmon.cyclic.app");
 
 function App() {
   // const navigate = useNavigate()
