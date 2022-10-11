@@ -28,14 +28,9 @@ function Chat({socket, username, room}) {
   useEffect(async () => {
 
       await socket.on("receive_message", (data) => {
-      if (counter === 1){
         setMessageList((list) => [...list, data])
-        counter++
       }
-      else if(counter == 2){
-        counter--
-      }
-    })
+    )
   }, [socket]) // it wll be called whenever there is a change in the socket server 
 
   return (
