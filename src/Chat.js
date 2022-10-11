@@ -25,9 +25,9 @@ function Chat({socket, username, room}) {
     }
   }
 
-  useEffect(() => {
+  useEffect(async () => {
 
-    socket.on("receive_message", (data) => {
+      await socket.on("receive_message", (data) => {
       if (counter === 1){
         setMessageList((list) => [...list, data])
         counter++
