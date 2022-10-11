@@ -66,6 +66,7 @@
   border-radius: 10px;
   overflow-y: scroll;
   overflow-x: hidden;
+  padding: 8px;
 }
 
 .chat-footer{
@@ -78,7 +79,6 @@
 .chat-footer input{
   height: 3em;
   width: 95%;
-  margin-top: 10px;
   background-color: #1f242b;
   color: white;
   padding: 5px;
