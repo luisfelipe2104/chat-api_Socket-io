@@ -40,6 +40,7 @@ function Chat({socket, username, room}) {
       retrieveMessages()
       const getMessage = async () => {
         await socket.on("receive_message", (data) => {
+          console.log(data)
           setMessageList((list) => [...list, data])
         }
         )
@@ -47,7 +48,7 @@ function Chat({socket, username, room}) {
         getMessage()
       
       }
-  }, [socket]) // it wll be called whenever there is a change in the socket server 
+  }) // it wll be called whenever there is a change in the socket server 
 
   return (
     <div className='chat-container'>
