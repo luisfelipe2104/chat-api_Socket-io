@@ -1,7 +1,6 @@
 import './App.css';
 import io from "socket.io-client"
 import { useState } from 'react'
-import { BrowserRouter, Route, Routes, useNavigate } from "react-router-dom";
 import Chat from './Chat';
 
 const socket = io.connect("https://socket-io-jzq1.onrender.com");
@@ -22,7 +21,6 @@ function App() {
 
   return (
     <div className="App">
-      <BrowserRouter>
       { !chatAvailable ? (
         <div className='home container-fluid'>
           <div className='title'>
@@ -53,7 +51,6 @@ function App() {
         </div>
       ) : null}
       
-      </BrowserRouter>
     </div>
   );
 }

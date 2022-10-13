@@ -1,10 +1,19 @@
 import React, { useEffect, useState } from 'react'
 import ScrollToBottom from "react-scroll-to-bottom";
+import Axios from "axios"
 
 function Chat({socket, username, room}) {
   const [message, setMessage] = useState("")
   const [messageList, setMessageList] = useState([])
-  let counter = 1
+
+  const retrieveMessages = async () => {
+    await Axios.get(`https://chat-models.onrender.com/get-message/${room}`)
+    .then(res => setMessageList(res.data))
+  }
+
+  const saveMessage = async (messageData) => {
+     Axios.post("https://chat-models.onrender.com/insert", messageData)
+  }
 
   const sendMessage = async () => {
     if (message !== "") {
@@ -17,6 +26,7 @@ function Chat({socket, username, room}) {
         ":" + 
         new Date(Date.now()).getMinutes(),
       }
+      saveMessage(messageData)
 
       // in the send_message it will emit the message that you sent to the receivers
       await socket.emit("send_message", messageData) // connects to the socket and sends data to it
@@ -25,12 +35,15 @@ function Chat({socket, username, room}) {
     }
   }
 
-  useEffect(async () => {
-
-      await socket.on("receive_message", (data) => {
-        setMessageList((list) => [...list, data])
+  useEffect(() => {
+      retrieveMessages()
+      const getMessage = async () => {
+        await socket.on("receive_message", (data) => {
+          setMessageList((list) => [...list, data])
+        }
+      )
+      getMessage()
       }
-    )
   }, [socket]) // it wll be called whenever there is a change in the socket server 
 
   return (
@@ -41,9 +54,9 @@ function Chat({socket, username, room}) {
 
       <div className='chat-body'>
       <ScrollToBottom className="message-container">
-          {messageList.map((messageContent) => {
+          {messageList.map((messageContent, key) => {
             return (
-              <div className='contain' id={username === messageContent.author ? "you" : "other"}>
+              <div className='contain' key={key} id={username === messageContent.author ? "you" : "other"}>
                 
               <div
                 className="message"
