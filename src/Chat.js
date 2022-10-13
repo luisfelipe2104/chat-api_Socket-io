@@ -32,6 +32,7 @@ function Chat({socket, username, room}) {
       await socket.emit("send_message", messageData) // connects to the socket and sends data to it
       setMessageList((list) => [...list, messageData])
       setMessage("")
+      retrieveMessages()
     }
   }
 
