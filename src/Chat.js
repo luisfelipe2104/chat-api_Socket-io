@@ -32,7 +32,7 @@ function Chat({socket, username, room}) {
       await socket.emit("send_message", messageData) // connects to the socket and sends data to it
       setMessageList((list) => [...list, messageData])
       setMessage("")
-      retrieveMessages()
+      
     }
   }
 
@@ -42,8 +42,10 @@ function Chat({socket, username, room}) {
         await socket.on("receive_message", (data) => {
           setMessageList((list) => [...list, data])
         }
-      )
-      getMessage()
+        )
+        await retrieveMessages()
+        getMessage()
+      
       }
   }, [socket]) // it wll be called whenever there is a change in the socket server 
 
